@@ -11,41 +11,29 @@
           ]
         }
       },
-      "id": "93882f2f-a0f4-4086-b943-f7759a617dc7",
       "name": "Daily at 8:00 AM",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [
-        240,
-        304
-      ]
+      "position": [240, 304]
     },
     {
       "parameters": {
         "url": "https://feeds.feedburner.com/oreilly/radar/atom",
         "options": {}
       },
-      "id": "85c97dad-d935-4510-bde0-d90fa6867ac9",
       "name": "Fetch AI News RSS",
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
-      "position": [
-        464,
-        304
-      ]
+      "position": [464, 304]
     },
     {
       "parameters": {
         "jsCode": "// Get all items from RSS feed\nconst items = $input.all();\n\n// Return only the first item (latest article)\nreturn [items[0]];"
       },
-      "id": "3c44d4d5-310e-4a02-ae92-b0c674cb8c16",
       "name": "Select Latest Article",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [
-        688,
-        304
-      ]
+      "position": [688, 304]
     },
     {
       "parameters": {
@@ -73,103 +61,44 @@
           }
         }
       },
-      "id": "9a1caf7a-a7b6-4f75-ac1d-16c7078fe4bd",
       "name": "Summarize with OpenRouter",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [
-        912,
-        304
-      ],
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "qucmkA7R54NaCk9X",
-          "name": "Header Auth account 2"
-        }
-      }
+      "position": [912, 304]
     },
     {
       "parameters": {
-        "sendTo": "zullk694@gmail.com",
+        "sendTo": "YOUR_EMAIL@example.com",
         "subject": "={{ \"AI News Summary - \" + $(\"Select Latest Article\").item.json.title }}",
-        "message": "=<p>This is a test email from n8n.</p>",
+        "message": "={{ \"<h2>\" + $(\"Select Latest Article\").item.json.title + \"</h2><br><br>\" + $json.choices[0].message.content.replace(/\\n/g, \"<br>\") }}",
         "options": {
           "appendAttribution": false
         }
       },
-      "id": "496037ef-422f-486d-9263-e219fb8abf26",
       "name": "Send Summary Email",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
-      "position": [
-        1136,
-        304
-      ],
-      "webhookId": "55599bc6-dc2c-44bb-b84b-c93435d1b21b",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "rnXs7eYMhrEM9Y1r",
-          "name": "Gmail OAuth2 API"
-        }
-      }
+      "position": [1136, 304]
     }
   ],
   "pinData": {},
   "connections": {
     "Daily at 8:00 AM": {
-      "main": [
-        [
-          {
-            "node": "Fetch AI News RSS",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Fetch AI News RSS", "type": "main", "index": 0 }]]
     },
     "Fetch AI News RSS": {
-      "main": [
-        [
-          {
-            "node": "Select Latest Article",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Select Latest Article", "type": "main", "index": 0 }]]
     },
     "Select Latest Article": {
-      "main": [
-        [
-          {
-            "node": "Summarize with OpenRouter",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Summarize with OpenRouter", "type": "main", "index": 0 }]]
     },
     "Summarize with OpenRouter": {
-      "main": [
-        [
-          {
-            "node": "Send Summary Email",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": [[{ "node": "Send Summary Email", "type": "main", "index": 0 }]]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
-    "executionOrder": "v1",
-    "binaryMode": "separate"
+    "executionOrder": "v1"
   },
-  "versionId": "3efff25c-ed85-433d-85ce-7a3ec3e48b20",
-  "meta": {
-    "instanceId": "b3780a8d3b7af9160453d830e70a7fbad4eb0c8dde62fff9f21486a89d33e483"
-  },
-  "id": "t9byMzN7QQah7wBP",
   "tags": []
 }
